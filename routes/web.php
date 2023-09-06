@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $response = Http::post('http://127.0.0.1:8000/graphiql', [
+        'query' => '
+            query {
+                posts {
+                    data{
+                        title
+                        body
+                      }
+                }
+            }
+         '
+    ]);
+    dd($response->json());
 });
